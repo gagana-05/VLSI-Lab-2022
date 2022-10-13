@@ -1,0 +1,56 @@
+
+Subcircuit summary:
+Circuit 1: gagana_joshua.spice             |Circuit 2: test.spice                      
+-------------------------------------------|-------------------------------------------
+pfet (1)                                   |pfet (1)                                   
+nfet (1)                                   |nfet (1)                                   
+c (3)                                      |(no matching element)                      
+(no matching element)                      |vsrc (3)                                   
+Number of devices: 5                       |Number of devices: 5                       
+Number of nets: 5                          |Number of nets: 5                          
+---------------------------------------------------------------------------------------
+NET mismatches: Class fragments follow (with fanout counts):
+Circuit 1: gagana_joshua.spice             |Circuit 2: test.spice                      
+
+---------------------------------------------------------------------------------------
+Net: out                                   |Net: in                                    
+  pfet/(drain|source) = 1                  |  nfet/gate = 1                            
+  nfet/(drain|source) = 1                  |  pfet/gate = 1                            
+  c/top = 1                                |  vsrc/pos = 1                             
+                                           |                                           
+Net: in                                    |Net: out                                   
+  pfet/gate = 1                            |  nfet/(drain|source) = 1                  
+  nfet/gate = 1                            |  pfet/(drain|source) = 1                  
+  c/top = 1                                |                                           
+                                           |                                           
+Net: Vdd                                   |Net: vss                                   
+  pfet/(drain|source) = 1                  |  nfet/(drain|source) = 1                  
+  pfet/bulk = 1                            |  vsrc/pos = 1                             
+                                           |                                           
+Net: Vss                                   |Net: vdd                                   
+  nfet/(drain|source) = 1                  |  pfet/(drain|source) = 1                  
+  c/top = 1                                |  vsrc/pos = 1                             
+                                           |                                           
+Net: Gnd                                   |Net: 0                                     
+  nfet/bulk = 1                            |  nfet/bulk = 1                            
+  c/bottom = 3                             |  pfet/bulk = 1                            
+                                           |  vsrc/neg = 3                             
+---------------------------------------------------------------------------------------
+DEVICE mismatches: Class fragments follow (with node fanout counts):
+Circuit 1: gagana_joshua.spice             |Circuit 2: test.spice                      
+
+---------------------------------------------------------------------------------------
+Instance: c0                               |Instance: pfet1                            
+  top = 2                                  |  pos = 2                                  
+  bottom = 4                               |  neg = 5                                  
+                                           |                                           
+Instance: c1                               |Instance: pfet1                            
+  top = 3                                  |  pos = 2                                  
+  bottom = 4                               |  neg = 5                                  
+                                           |                                           
+Instance: c2                               |Instance: pfet1                            
+  top = 3                                  |  pos = 3                                  
+  bottom = 4                               |  neg = 5                                  
+---------------------------------------------------------------------------------------
+Netlists do not match.
+Netlists do not match.
