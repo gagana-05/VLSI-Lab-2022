@@ -1,0 +1,26 @@
+* SPICE3 file created from cmos.ext - technology: scmos
+
+.option scale=1u
+.include ./t14y_tsmc_025_level3.txt
+
+M1000 out a Vdd Vdd cmosp w=20 l=2
++  ad=120 pd=52 as=120 ps=52
+M1001 out a Vss Gnd cmosn w=18 l=2
++  ad=108 pd=48 as=108 ps=48
+C0 Vss 0 11.56fF
+C1 out 0 2.82fF
+C2 a 0 6.75fF
+C3 Vdd 0 8.84fF
+
+* voltage inputs
+v_ss Vss 0 0
+v_dd Vdd 0 3.3
+
+v_in a 0 pulse(0 3.3 0 0 0 50n 100n)
+
+.control
+tran 0.1n 200n
+setplot tran1
+plot a out
+.endc
+.end
