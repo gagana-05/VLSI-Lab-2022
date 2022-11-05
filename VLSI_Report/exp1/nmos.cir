@@ -1,0 +1,22 @@
+* nmos characteristics
+
+* include model files
+.include ./t14y_tsmc_025_level3.txt
+
+*netlist
+* model instance 
+m1 Vdd in Vss 0 cmosn w=0.5u l=1u
+
+* voltage inputs
+v_dd Vdd 0 3.3
+v_ss Vss 0 0
+
+v_in in 0 3.3
+
+.control 
+dc v_in 0 3.3 1 v_dd 0 3.3 1
+run 
+setplot dc1
+plot -v_dd#branch
+.endc
+.end
