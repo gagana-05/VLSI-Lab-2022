@@ -7,6 +7,6 @@ M1000 out a Vdd Vdd pfet w=20 l=2
 M1001 out a Vss Gnd nfet w=18 l=2
 +  ad=108 pd=48 as=108 ps=48
 C0 Vss Gnd 11.56fF
-C1 out Gnd 2.82fF
-C2 a Gnd 6.75fF
+C1 out Gnd 2.26fF
+C2 a Gnd 6.03fF
 C3 Vdd Gnd 8.84fF

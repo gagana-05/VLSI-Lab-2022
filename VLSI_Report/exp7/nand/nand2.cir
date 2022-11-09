@@ -1,0 +1,34 @@
+* SPICE3 file created from nand2.ext - technology: scmos
+
+.option scale=1u
+.include ./t14y_tsmc_025_level3.txt
+
+M1000 out a Vdd Vdd cmosp w=20 l=2
++  ad=300 pd=70 as=120 ps=52
+M1001 a_12_13# a Vss 0 cmosn w=12 l=2
++  ad=144 pd=72 as=72 ps=36
+M1002 out b a_12_13# 0 cmosn w=12 l=2
++  ad=60 pd=34 as=0 ps=0
+M1003 a_29_43# b out Vdd cmosp w=20 l=2
++  ad=100 pd=50 as=0 ps=0
+C0 Vss 0 13.44fF
+C1 out 0 4.61fF
+C2 b 0 6.27fF
+C3 a 0 6.27fF
+
+* voltage input
+v_dd Vdd 0 3.3
+v_ss Vss 0 0 
+
+v_ina a 0 pulse(0 3.3 0 0.1n 0 50n 100n)
+v_inb b 0 pulse(0 3.3 0 0.1n 0 100n 200n)
+
+* output
+.control
+tran 0.1n 200n
+setplot tran1
+plot b a
+plot out
+plot b a out
+.endc
+.end

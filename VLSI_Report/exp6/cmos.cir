@@ -8,8 +8,8 @@ M1000 out a Vdd Vdd cmosp w=20 l=2
 M1001 out a Vss Gnd cmosn w=18 l=2
 +  ad=108 pd=48 as=108 ps=48
 C0 Vss 0 11.56fF
-C1 out 0 2.82fF
-C2 a 0 6.75fF
+C1 out 0 2.26fF
+C2 a 0 6.03fF
 C3 Vdd 0 8.84fF
 
 * voltage inputs
@@ -22,5 +22,31 @@ v_in a 0 pulse(0 3.3 0 0 0 50n 100n)
 tran 0.1n 200n
 setplot tran1
 plot a out
+.endc
+
+.control
+
+meas tran Vmax MAX out from=0n to=10n
+meas tran Vmin MIN out from=48n to=55n
+
+let V10 = Vmin + 0.1*(Vmax - Vmin)
+
+let V90 = Vmin + 0.9*(Vmax - Vmin)
+
+let V50 = Vmin + 0.5*(Vmax - Vmin)
+
+meas tran trise trig out val=V10 rise=1 targ out val=V90 rise=1
+meas tran tfall trig out val=V90 fall=1 targ out val=V10 fall=1
+
+meas tran tphl trig a val=2.5 rise=1 targ out val=V50 fall=1
+meas tran tplh trig a val=2.5 fall=1 targ out val=V50 rise=1
+
+let tpd = (tphl + tplh)/2 
+
+print tphl tplh tpd
+
+let power_r = 5*(-v_dd#branch)
+meas tran avg_power_r AVG power_r from=0n to=4n
+
 .endc
 .end

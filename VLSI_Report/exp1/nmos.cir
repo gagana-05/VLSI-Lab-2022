@@ -14,9 +14,14 @@ v_ss Vss 0 0
 v_in in 0 3.3
 
 .control 
-dc v_in 0 3.3 1 v_dd 0 3.3 1
+dc v_in 0 3.3 0.1 v_dd 0 3.3 1
 run 
 setplot dc1
+plot -v_dd#branch
+
+dc v_dd 0 3.3 0.1 v_in 0 3.3 1
+run 
+setplot dc2
 plot -v_dd#branch
 .endc
 .end

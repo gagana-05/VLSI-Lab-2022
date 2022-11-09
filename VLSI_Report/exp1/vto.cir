@@ -1,0 +1,40 @@
+*changing VTO
+
+*including required model file 
+.include ./t14y_tsmc_025_level1.txt
+
+*.netlist 
+m0 d1 in 0 0 nfet1 w=6.4u l=1.8u ad=6.84p pd=10.8p as=6.84p ps=10.8p
+m1 d2 in 0 0 nfet2 w=6.4u l=1.8u ad=6.84p pd=10.8p as=6.84p ps=10.8p
+m2 d3 in 0 0 nfet3 w=6.4u l=1.8u ad=6.84p pd=10.8p as=6.84p ps=10.8p
+
+r1 d1 vdd 0.0001
+r2 d2 vdd 0.0001
+r3 d3 vdd 0.0001
+
+.MODEL nfet1 NMOS level=1 VTO=0.5
+.MODEL nfet2 NMOS level=1 VTO=1
+.MODEL nfet3 NMOS level=1 VTO=2
+
+*voltage inputs
+Vdd vdd 0 5
+Vin in 0 5
+
+.control
+
+    dc Vdd 0 5 0.1 Vin 0 5 1
+    run 
+    setplot dc1
+    plot (V(vdd)-v(d1)) / 0.0001
+    plot (V(vdd)-v(d2)) / 0.0001
+    plot (V(vdd)-v(d3)) / 0.0001
+
+    dc Vin 0 5 0.1 Vdd 0 5 1
+    run
+    setplot dc2
+    plot (V(vdd)-v(d1)) / 0.0001
+    plot (V(vdd)-v(d2)) / 0.0001
+    plot (V(vdd)-v(d3)) / 0.0001
+.endc
+.end
+
