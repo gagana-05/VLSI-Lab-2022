@@ -1,0 +1,50 @@
+* NAND gate
+* model file
+.include ./t14y_tsmc_025_level3.txt
+
+**Pull up network**
+
+m2 vdd a out vdd cmosp w=4u l=1u
+m3 vdd b out vdd cmosp w=4u l=1u
+
+**Pull down network**
+m0 out a x 0 cmosn w=2u l=1u
+m1 x b 0 0 cmosn w=2u l=1u
+
+v_dd vdd 0 5
+v_a a 0 5 pulse(0 5 0 0.1n 0.1n 4n 8n)
+v_b b 0 5 pulse(0 5 0 0.1n 0.1n 2n 4n)
+
+**Transfer function and transient response on varying WIDTH of both the NMOS**
+.control
+foreach wid 1u 2u 20u
+alter m0 w=$wid
+alter m1 w=$wid
+tran 0.01n 8ns
+end
+alter m0 w=2u
+alter m1 w=2u
+.endc
+
+.control
+plot tran1.a tran1.b tran1.out tran2.out tran3.out
+plot tran1.v_dd#branch*(-vdd) tran2.v_dd#branch*(-vdd) tran3.v_dd#branch*(-vdd)
+plot tran1.x tran2.x tran3.x title "Voltages for various width"
+.endc
+*Transfer function and transient response on varying WIDTH of both the PMOS
+.control
+foreach wid 1.25u 2.5u 25u
+alter m2 w=$wid
+alter m3 w=$wid
+tran 0.01n 8ns
+end
+alter m2 w=2.5u
+alter m3 w=2.5u
+.endc
+
+.control
+plot tran1.a tran1.b tran4.out tran5.out tran6.out
+plot tran4.v_dd#branch*(-vdd) tran5.v_dd#branch*(-vdd) tran6.v_dd#branch*(-vdd)
+plot tran4.x tran5.x tran6.x
+.endc
+.end

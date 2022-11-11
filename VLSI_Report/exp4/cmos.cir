@@ -1,0 +1,118 @@
+*cmos inverter
+*model files
+.include ./t14y_tsmc_025_level3.txt
+
+m1 out in 0 0 cmosn l=1u w=1u
+m2 out in vdd vdd cmosp l=1u w=2u
+
+c0 out 0 0.01p
+v_dd vdd 0 dc 3.3
+
+v_in in 0 dc 3.3 pulse(0 3.3 0 0.05n 0.05n 0.5n 1n)
+
+.tran 0.01n 2n
+.dc v_in 0 3.3 0.1
+
+*Changing Width of nmos*
+
+.control
+foreach wid 0.5u 1u 10u
+alter m1 w = $wid
+dc v_in 0 5 0.1
+tran 0.01n 2n
+end
+alter m1 w = 1u
+.endc
+
+.control
+plot dc1.out dc2.out dc3.out vs in title "Effect of width on DC response"
+plot tran1.in tran1.out tran2.out tran3.out
+plot tran1.v_dd#branch*(-vdd) tran2.v_dd#branch*(-vdd) tran3.v_dd#branch*(-vdd)
+.endc
+
+
+*Changing Width of pmos*
+
+.control
+foreach wid1 1u 2u 20u
+alter m2 w = $wid1
+dc v_in 0 5 0.1
+tran 0.01n 2n
+end
+alter m2 w = 2u
+.endc
+.control
+plot dc4.out dc5.out dc6.out vs in title "Effect of changing width of pmos"
+plot tran1.in tran4.out tran5.out tran6.out
+plot tran4.v_dd#branch*(-vdd) tran5.v_dd#branch*(-vdd) tran6.v_dd#branch*(-vdd)
+.endc
+
+*Changing length of nmos*
+
+.control
+foreach len 0.5u 1u 10u
+alter m1 l = $len
+dc v_in 0 5 0.1
+tran 0.01n 2n
+end
+alter m1 l = 1u
+.endc
+
+.control
+plot dc7.out dc8.out dc9.out vs in title "Effect of varying length of nmos"
+plot tran1.in tran7.out tran8.out tran9.out
+plot tran7.v_dd#branch*(-vdd) tran8.v_dd#branch*(-vdd) tran9.v_dd#branch*(-vdd)
+.endc
+
+** Varying length of pmos**
+
+.control
+foreach len1 0.5u 1u 10u
+alter m2 l = $len1
+dc v_in 0 5 0.1
+tran 0.01n 2n
+end
+alter m2 l = 1u
+.endc
+
+.control
+plot dc10.out dc11.out dc12.out vs in title "Effect of varying length of pmos"
+plot tran1.in tran10.out tran11.out tran12.out
+plot tran10.v_dd#branch*(-vdd) tran11.v_dd#branch*(-vdd) tran12.v_dd#branch*(-vdd)
+.endc
+
+
+
+**Varying the load capacitance**
+
+.control
+foreach cap 0.01p 0.05p 0.1p
+alter c0 = $cap
+dc v_in 0 5 0.1
+tran 0.001 2n
+end
+.endc
+
+.control
+plot tran1.in tran13.out tran14.out tran15.out
+plot tran13.v_dd#branch*(-vdd) tran14.v_dd#branch*(-vdd) tran15.v_dd#branch*(-vdd)
+.endc
+
+.control
+ 
+meas tran Vmax MAX out from=0n to=0.4n
+meas tran Vmin MIN out from=0.6n to=1n
+ 
+let V10 = Vmin + 0.1*(Vmax - Vmin)
+ 
+let V90 = Vmin + 0.9*(Vmax - Vmin)
+ 
+let V50 = Vmin + 0.5*(Vmax - Vmin)
+ 
+let power_r = 5*(-v_dd#branch)
+meas tran avg_power_r AVG power_r from=0n to=2n
+ 
+.endc
+
+.end
+

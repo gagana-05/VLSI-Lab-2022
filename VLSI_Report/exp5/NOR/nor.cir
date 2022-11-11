@@ -1,0 +1,35 @@
+*NOR gate
+model file
+.include ./t14y_tsmc_025_level3.txt
+
+*Pull up network
+m2 vdd a x vdd cmosp l=1u w=5u
+m3 x b out vdd cmosp l=1u w=5u
+
+*Pull down network
+m0 out a 0 0 cmosn l=1u w=1u
+m1 out b 0 0 cmosn l=1u w=1u
+
+
+
+v_dd vdd 0 5
+v_a a 0 5 pulse(0 5 0 0.1n 0.1n 4n 8n)
+v_b b 0 5 pulse(0 5 0 0.1n 0.1n 2n 4n)
+
+*Varying WIDTH of both the NMOS
+.control
+foreach wid 0.5u 1u 10u
+alter m0 w=$wid
+alter m1 w=$wid
+tran 0.01n 8ns
+end
+alter m0 w=1u
+alter m1 w=1u
+.endc
+
+.control
+plot tran1.a tran1.b tran1.out tran2.out tran3.out
+plot tran1.v_dd#branch*(-vdd) tran2.v_dd#branch*(-vdd) tran3.v_dd#branch*(-vdd)
+plot tran1.x tran2.x tran3.x
+.endc
+

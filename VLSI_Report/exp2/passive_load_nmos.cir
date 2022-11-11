@@ -1,0 +1,40 @@
+***inverter with enhancement NMOS load***
+
+.include ./t14y_tsmc_025_level3.txt
+
+
+*Netlist*
+mnd out in 0 0 cmosn w=10u l=1u 
+mnl dd dd out 0 cmosn w=10u l=1u
+
+Vdd dd 0 5
+Vin in 0 dc 2.5 pulse(0 5 0.01n 0.05n 0.05n 10n 20n)
+
+
+***DC and transient response on varying the Length and width of driver and load of MOSTFET***
+
+.control
+
+foreach len 1u 2u 5u
+	alter mnd L=$len
+	foreach wid 10u 3u 16u
+		alter mnd W=$wid
+		tran 0.1ns 40ns
+		dc Vin 0 5 0.1
+	end
+end
+
+.endc
+
+.control
+
+foreach len 1u 2u 5u
+	alter mnl L=$len
+	foreach wid 10u 3u 16u
+		alter mnl W=$wid
+		tran 0.1ns 40ns
+		dc Vin 0 5 0.1
+	end
+end
+
+.endc
