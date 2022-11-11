@@ -13,15 +13,30 @@ v_ss Vss 0 0
 
 v_in in 0 3.3
 
-.control 
-dc v_in 0 3.3 0.1 v_dd 0 3.3 1
-run 
-setplot dc1
-plot -v_dd#branch
+* .control 
+* dc v_in 0 3.3 0.1 v_dd 0 3.3 1
+* run 
+* setplot dc1
+* plot -v_dd#branch
 
-dc v_dd 0 3.3 0.1 v_in 0 3.3 1
-run 
-setplot dc2
+* dc v_dd 0 3.3 0.1 v_in 0 3.3 1
+* run 
+* setplot dc2
+* plot -v_dd#branch
+* .endc
+
+.control
+foreach tem 10 25 50
+	alter m1 TEMP=$tem	
+	dc v_in 0 3.3 0.1 v_dd 0 3.3 1
+    run	
+end
+* alter m1 TEMP=27
+.endc
+.control
+foreach iter 1 2 3
+setplot dc$iter
 plot -v_dd#branch
+end
 .endc
 .end
